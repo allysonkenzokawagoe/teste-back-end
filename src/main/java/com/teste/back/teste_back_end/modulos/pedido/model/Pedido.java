@@ -24,11 +24,11 @@ public class Pedido {
     private Double valorTotal;
 
     @ManyToOne
-    @JoinColumn(name = "FK_CLIENTE", foreignKey = @ForeignKey(name = "FK_CLIENTE"), nullable = false)
+    @JoinColumn(name = "FK_CLIENTE", foreignKey = @ForeignKey(name = "FK_CLIENTE_PEDIDO"), nullable = false)
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "FK_ENDERECO",foreignKey = @ForeignKey(name = "FK_ENDERECO"), nullable = false)
+    @JoinColumn(name = "FK_ENDERECO",foreignKey = @ForeignKey(name = "FK_ENDERECO_PEDIDO"), nullable = false)
     private Endereco endereco;
 
     @OneToMany(mappedBy = "pedido")

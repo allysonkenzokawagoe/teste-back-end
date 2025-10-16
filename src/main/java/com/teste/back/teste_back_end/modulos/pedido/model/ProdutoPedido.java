@@ -21,10 +21,10 @@ public class ProdutoPedido {
     private Integer quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "FK_PRODUTO", foreignKey = @ForeignKey(name = "PRODUTO"), nullable = false)
+    @JoinColumn(name = "FK_PRODUTO", foreignKey = @ForeignKey(name = "FK_PRODUTO_PRODTO_PEDIDO"), nullable = false)
     private Produto produto;
 
     @ManyToOne
-    @JoinColumn(name = "FK_PEDIDO", foreignKey = @ForeignKey(name = "FK_PEDIDO"), nullable = false)
+    @JoinColumn(name = "FK_PEDIDO", foreignKey = @ForeignKey(name = "FK_PEDIDO_PRODUTO_PEDIDO"), nullable = false)
     private Pedido pedido;
 }
