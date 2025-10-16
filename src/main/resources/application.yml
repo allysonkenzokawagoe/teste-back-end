@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: teste-back-end
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  datasource:
+    url: jdbc:h2:mem:teste-back
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
