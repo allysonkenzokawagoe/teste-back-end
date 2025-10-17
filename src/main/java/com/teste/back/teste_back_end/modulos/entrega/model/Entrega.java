@@ -1,12 +1,15 @@
 package com.teste.back.teste_back_end.modulos.entrega.model;
 
 import com.teste.back.teste_back_end.modulos.endereco.model.Endereco;
+import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoDto;
 import com.teste.back.teste_back_end.modulos.pedido.model.Pedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +28,10 @@ public class Entrega {
     @OneToOne
     @JoinColumn(name = "FK_PEDIDO", foreignKey = @ForeignKey(name = "FK_PEDIDO_ENTREGA"), nullable = false)
     private Pedido pedido;
+
+    public static Entrega of(PedidoDto pedido) {
+       return Entrega.builder()
+               .endereco(pedido.endereco())
+               .build();
+    }
 }

@@ -2,13 +2,14 @@ package com.teste.back.teste_back_end.modulos.pedido.service;
 
 import com.teste.back.teste_back_end.modulos.cliente.service.ClienteService;
 import com.teste.back.teste_back_end.modulos.endereco.service.EnderecoService;
+import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoDto;
 import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoResponse;
-import com.teste.back.teste_back_end.modulos.pedido.model.Pedido;
 import com.teste.back.teste_back_end.modulos.pedido.model.ProdutoPedido;
 import com.teste.back.teste_back_end.modulos.pedido.repository.ProdutoPedidoRepository;
 import com.teste.back.teste_back_end.modulos.produto.service.ProdutoService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProdutoPedidoService {
     private final ProdutoService produtoService;
     private final ClienteService clienteService;
     private final EnderecoService enderecoService;
+    private final RabbitTemplate rabbitTemplate;
 
     @Transactional
     public void cadastrarProdutoPedido(Integer quantidade, Integer pedidoId, Integer produtoId) {
@@ -50,11 +52,13 @@ public class ProdutoPedidoService {
 
         pedidoService.save(pedido);
 
+        var pedidoDto = PedidoDto.of(pedidoId, endereco);
+        rabbitTemplate.convertAndSend("pedido.entrega", pedidoDto);
+
         return PedidoResponse.of(pedido);
     }
 
     public List<ProdutoPedido> getProdutosPedido(Integer pedidoId) {
         return repository.findAllByPedidoId(pedidoId);
     }
-
 }
