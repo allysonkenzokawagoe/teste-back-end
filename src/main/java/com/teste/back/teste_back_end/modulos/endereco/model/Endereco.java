@@ -1,6 +1,7 @@
 package com.teste.back.teste_back_end.modulos.endereco.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.teste.back.teste_back_end.modulos.cliente.model.Cliente;
 import com.teste.back.teste_back_end.modulos.endereco.dto.EnderecoRequest;
 import com.teste.back.teste_back_end.modulos.entrega.model.Entrega;
 import com.teste.back.teste_back_end.modulos.pedido.model.Pedido;
@@ -35,6 +36,11 @@ public class Endereco {
 
     @Column(name = "CIDADE")
     private String cidade;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_CLIENTE", foreignKey = @ForeignKey(name = "FK_ENDERECO_CLIENTE"), nullable = false)
+    @JsonIgnore
+    private Cliente cliente;
 
     @OneToMany(mappedBy = "endereco")
     @JsonIgnore

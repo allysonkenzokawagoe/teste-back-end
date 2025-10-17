@@ -27,9 +27,8 @@ public class Cliente {
     @Column(name = "nome")
     private String nome;
 
-    @OneToOne
-    @JoinColumn(name = "FK_ENDERECO", foreignKey = @ForeignKey(name = "FK_ENDERECO"))
-    private Endereco endereco;
+    @OneToMany(mappedBy = "cliente")
+    private List<Endereco> enderecos;
 
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore

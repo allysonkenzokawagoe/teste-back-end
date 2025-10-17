@@ -4,11 +4,13 @@ import com.teste.back.teste_back_end.modulos.cliente.model.Cliente;
 import com.teste.back.teste_back_end.modulos.endereco.model.Endereco;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -33,4 +35,12 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido")
     private List<ProdutoPedido> produtos;
+
+    public static Pedido of(Cliente cliente, Endereco endereco) {
+        return Pedido.builder()
+                .valorTotal(0.0)
+                .cliente(cliente)
+                .endereco(endereco)
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.teste.back.teste_back_end.modulos.produto.service;
 
+import com.teste.back.teste_back_end.modulos.comum.exception.NotFoundException;
 import com.teste.back.teste_back_end.modulos.produto.dto.ProdutoRequest;
 import com.teste.back.teste_back_end.modulos.produto.model.Produto;
 import com.teste.back.teste_back_end.modulos.produto.repository.ProdutoRepository;
@@ -21,7 +22,9 @@ public class ProdutoService {
     }
 
     public Produto getById(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException(
+                "Produto não encontrado"
+        ));
     }
 
 }
