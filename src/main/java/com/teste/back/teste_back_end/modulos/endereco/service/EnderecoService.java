@@ -1,6 +1,5 @@
 package com.teste.back.teste_back_end.modulos.endereco.service;
 
-import com.teste.back.teste_back_end.modulos.cliente.model.Cliente;
 import com.teste.back.teste_back_end.modulos.comum.exception.NotFoundException;
 import com.teste.back.teste_back_end.modulos.endereco.model.Endereco;
 import com.teste.back.teste_back_end.modulos.endereco.repository.EnderecoRepository;
@@ -29,8 +28,7 @@ public class EnderecoService {
         return repository.findAll();
     }
 
-    public void salvar(Endereco endereco, Cliente cliente) {
-        endereco.setCliente(cliente);
+    public void salvar(Endereco endereco) {
         repository.save(endereco);
     }
 

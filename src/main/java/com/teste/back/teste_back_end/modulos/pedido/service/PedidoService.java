@@ -27,7 +27,7 @@ public class PedidoService {
 
     public Pedido getById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundException(
-                "Produto não encontrado"
+                "Pedido não encontrado"
         ));
     }
 

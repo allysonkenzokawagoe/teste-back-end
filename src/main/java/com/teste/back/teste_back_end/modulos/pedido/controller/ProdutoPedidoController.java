@@ -21,6 +21,6 @@ public class ProdutoPedidoController {
 
     @GetMapping("{pedidoId}")
     public List<ProdutoPedido> findByPedidoId(@PathVariable Integer pedidoId) {
-        return service.getProdutosPedido(pedidoId);
+        return service.buscarPorPedidoId(pedidoId);
     }
 }

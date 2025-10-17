@@ -37,16 +37,16 @@ public class ProdutoPedidoService {
 
     @Transactional
     public PedidoResponse gerarPedido(Integer clienteId, Integer pedidoId, Integer enderecoId) {
-        var produtosPedidos = getProdutosPedido(pedidoId);
+        var produtosPedidos = buscarPorPedidoId(pedidoId);
         var pedido = pedidoService.getById(pedidoId);
         var cliente = clienteService.getById(clienteId);
         var endereco = enderecoService.getById(enderecoId);
+        var produtosPedidosIds = produtosPedidos.stream().map(p ->p.getProduto().getId()).toList();
 
         produtosPedidos.forEach(
                 p -> pedido.setValorTotal(pedido.getValorTotal() + p.getSubtotal())
         );
 
-        pedido.setProdutos(produtosPedidos);
         pedido.setCliente(cliente);
         pedido.setEndereco(endereco);
 
@@ -55,10 +55,10 @@ public class ProdutoPedidoService {
         var pedidoDto = PedidoDto.of(pedidoId, endereco);
         rabbitTemplate.convertAndSend("pedido.entrega", pedidoDto);
 
-        return PedidoResponse.of(pedido);
+        return PedidoResponse.of(pedido, produtosPedidosIds);
     }
 
-    public List<ProdutoPedido> getProdutosPedido(Integer pedidoId) {
+    public List<ProdutoPedido> buscarPorPedidoId(Integer pedidoId) {
         return repository.findAllByPedidoId(pedidoId);
     }
 }

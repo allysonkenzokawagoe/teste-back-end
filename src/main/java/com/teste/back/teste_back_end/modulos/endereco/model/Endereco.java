@@ -3,15 +3,11 @@ package com.teste.back.teste_back_end.modulos.endereco.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.teste.back.teste_back_end.modulos.cliente.model.Cliente;
 import com.teste.back.teste_back_end.modulos.endereco.dto.EnderecoRequest;
-import com.teste.back.teste_back_end.modulos.entrega.model.Entrega;
-import com.teste.back.teste_back_end.modulos.pedido.model.Pedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -42,13 +38,6 @@ public class Endereco {
     @JsonIgnore
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "endereco")
-    @JsonIgnore
-    private List<Pedido> pedidos;
-
-    @OneToMany(mappedBy = "endereco")
-    @JsonIgnore
-    private List<Entrega> entregas;
 
     public static Endereco of(EnderecoRequest request) {
         return Endereco.builder()

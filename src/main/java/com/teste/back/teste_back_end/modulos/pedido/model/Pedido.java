@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,9 +30,6 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "FK_ENDERECO",foreignKey = @ForeignKey(name = "FK_ENDERECO_PEDIDO"), nullable = false)
     private Endereco endereco;
-
-    @OneToMany(mappedBy = "pedido")
-    private List<ProdutoPedido> produtos;
 
     public static Pedido of(Cliente cliente, Endereco endereco) {
         return Pedido.builder()

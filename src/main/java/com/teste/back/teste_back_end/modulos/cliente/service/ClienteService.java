@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class ClienteService {
@@ -23,10 +21,10 @@ public class ClienteService {
     public void cadastrar(ClienteRequest request) {
         var cliente = Cliente.of(request);
         var endereco = Endereco.of(request.endereco());
-        cliente.setEnderecos(List.of(endereco));
 
         repository.save(cliente);
-        enderecoService.salvar(endereco, cliente);
+        endereco.setCliente(cliente);
+        enderecoService.salvar(endereco);
     }
 
     public Cliente getById(Integer id) {
