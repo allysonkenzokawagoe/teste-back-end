@@ -23,4 +23,8 @@ public class ClienteHelper {
         );
     }
 
+    public static ClienteRequest umClienteRequestVazio() {
+        return new ClienteRequest(null, null);
+    }
+
 }
