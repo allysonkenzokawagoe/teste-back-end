@@ -1,9 +1,11 @@
 package com.teste.back.teste_back_end.modulos.pedido.service;
 
 import com.teste.back.teste_back_end.modulos.cliente.service.ClienteService;
+import com.teste.back.teste_back_end.modulos.comum.exception.ValidacaoException;
 import com.teste.back.teste_back_end.modulos.endereco.service.EnderecoService;
 import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoDto;
 import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoResponse;
+import com.teste.back.teste_back_end.modulos.pedido.enums.ESituacaoPedido;
 import com.teste.back.teste_back_end.modulos.pedido.model.ProdutoPedido;
 import com.teste.back.teste_back_end.modulos.pedido.repository.ProdutoPedidoRepository;
 import com.teste.back.teste_back_end.modulos.produto.service.ProdutoService;
@@ -37,6 +39,7 @@ public class ProdutoPedidoService {
 
     @Transactional
     public PedidoResponse gerarPedido(Integer clienteId, Integer pedidoId, Integer enderecoId) {
+        validarPedido(pedidoId);
         var produtosPedidos = buscarPorPedidoId(pedidoId);
         var pedido = pedidoService.getById(pedidoId);
         var cliente = clienteService.getById(clienteId);
@@ -60,5 +63,12 @@ public class ProdutoPedidoService {
 
     public List<ProdutoPedido> buscarPorPedidoId(Integer pedidoId) {
         return repository.findAllByPedidoId(pedidoId);
+    }
+
+    private void validarPedido(Integer pedidoId) {
+        var pedido = pedidoService.getById(pedidoId);
+        if(pedido.getSituacaoPedido() != ESituacaoPedido.PEDIDO_ABERTO) {
+            throw new ValidacaoException("Pedido já finalizado ou aguardando entrega");
+        }
     }
 }

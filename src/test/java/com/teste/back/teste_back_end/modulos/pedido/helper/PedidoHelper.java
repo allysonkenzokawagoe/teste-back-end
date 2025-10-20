@@ -1,7 +1,7 @@
 package com.teste.back.teste_back_end.modulos.pedido.helper;
 
 import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoDto;
-import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoResponse;
+import com.teste.back.teste_back_end.modulos.pedido.enums.ESituacaoPedido;
 import com.teste.back.teste_back_end.modulos.pedido.model.Pedido;
 import lombok.experimental.UtilityClass;
 
@@ -15,6 +15,17 @@ public class PedidoHelper {
         return new Pedido(
                 1,
                 100.0,
+                ESituacaoPedido.PEDIDO_ABERTO,
+                umCliente(),
+                umEndereco()
+        );
+    }
+
+    public static Pedido umPedidoAguardandoEntrega() {
+        return new Pedido(
+                1,
+                100.0,
+                ESituacaoPedido.AGUARDANDO_ENTREGA,
                 umCliente(),
                 umEndereco()
         );

@@ -1,10 +1,10 @@
 package com.teste.back.teste_back_end.modulos.pedido.service;
 
 import com.teste.back.teste_back_end.modulos.cliente.service.ClienteService;
+import com.teste.back.teste_back_end.modulos.comum.exception.ValidacaoException;
 import com.teste.back.teste_back_end.modulos.endereco.service.EnderecoService;
 import com.teste.back.teste_back_end.modulos.pedido.dto.PedidoDto;
 import com.teste.back.teste_back_end.modulos.pedido.model.ProdutoPedido;
-import com.teste.back.teste_back_end.modulos.pedido.repository.PedidoRepository;
 import com.teste.back.teste_back_end.modulos.pedido.repository.ProdutoPedidoRepository;
 import com.teste.back.teste_back_end.modulos.produto.service.ProdutoService;
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,7 @@ import java.util.List;
 import static com.teste.back.teste_back_end.modulos.cliente.helper.ClienteHelper.umCliente;
 import static com.teste.back.teste_back_end.modulos.endereco.helper.EnderecoHelper.umEndereco;
 import static com.teste.back.teste_back_end.modulos.pedido.helper.PedidoHelper.umPedido;
+import static com.teste.back.teste_back_end.modulos.pedido.helper.PedidoHelper.umPedidoAguardandoEntrega;
 import static com.teste.back.teste_back_end.modulos.pedido.helper.ProdutoPedidoHelper.umProdutoPedido;
 import static com.teste.back.teste_back_end.modulos.produto.helper.ProdutoHelper.umProduto;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -76,6 +77,16 @@ public class ProdutoPedidoServiceTest {
 
         verify(rabbitTemplate).convertAndSend("pedido.entrega", pedidoDto);
     }
+
+    @Test
+    void gerarPedido_deveLancarValidacaoException_quandoSituacaoDiferenteAberta() {
+        when(pedidoService.getById(1)).thenReturn(umPedidoAguardandoEntrega());
+
+        assertThatCode(() -> service.gerarPedido(1, 1, 1))
+                .isInstanceOf(ValidacaoException.class)
+                .hasMessage("Pedido já finalizado ou aguardando entrega");
+    }
+
 
     @Test
     void buscarPorPedidoId_deveBuscarProdutoPedido_quandoSolicitado() {

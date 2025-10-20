@@ -1,5 +1,6 @@
 package com.teste.back.teste_back_end.modulos.pedido.model;
 
+import com.teste.back.teste_back_end.modulos.pedido.enums.ESituacaoPedido;
 import org.junit.jupiter.api.Test;
 
 import static com.teste.back.teste_back_end.modulos.cliente.helper.ClienteHelper.umCliente;
@@ -14,6 +15,7 @@ public class PedidoTest {
 
         assertThat(pedido).isNotNull();
         assertThat(pedido.getValorTotal()).isEqualTo(0.0);
+        assertThat(pedido.getSituacaoPedido()).isEqualTo(ESituacaoPedido.PEDIDO_ABERTO);
         assertThat(pedido.getEndereco()).isEqualTo(umEndereco());
         assertThat(pedido.getCliente()).isEqualTo(umCliente());
     }

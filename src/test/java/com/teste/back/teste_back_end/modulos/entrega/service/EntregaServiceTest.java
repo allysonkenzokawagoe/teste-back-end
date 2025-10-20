@@ -1,6 +1,5 @@
 package com.teste.back.teste_back_end.modulos.entrega.service;
 
-import com.teste.back.teste_back_end.modulos.entrega.model.Entrega;
 import com.teste.back.teste_back_end.modulos.entrega.repository.EntregaRepository;
 import com.teste.back.teste_back_end.modulos.pedido.service.PedidoService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static com.teste.back.teste_back_end.modulos.entrega.helper.EntregaHelper.umaEntrega;
+import static com.teste.back.teste_back_end.modulos.pedido.helper.PedidoHelper.umPedido;
 import static com.teste.back.teste_back_end.modulos.pedido.helper.PedidoHelper.umPedidoDto;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.verify;
@@ -31,7 +31,9 @@ public class EntregaServiceTest {
 
     @Test
     void cadastrarEntrega_deveCadastrarEntrega_quandoSolicitado() {
-        var entrega = Entrega.of(umPedidoDto());
+        var entrega = umaEntrega();
+
+        when(pedidoService.getById(1)).thenReturn(umPedido());
 
         assertThatCode(() -> service.cadastrarEntrega(umPedidoDto())).doesNotThrowAnyException();
 
